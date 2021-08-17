@@ -1,0 +1,62 @@
+<h1>Welcome to the Wedding Planner!</h1>
+
+
+<a href="/">Logout</a>
+
+
+<h2>Welcome @ViewBag.ThisUser.FirstName @ViewBag.ThisUser.LastName!</h2>
+
+<div>
+    <ul>
+        @{
+            if(ViewBag.AllWeddingsCount != 0)
+            {
+                @foreach(var l in ViewBag.AllWeddings)
+                {
+                        var guestlist = ((IEnumerable<dynamic>)l.UsersForThisWedding);
+                        var guestcount = guestlist.Count();
+                    <table style="width:50%">
+                    <tr>
+                        <th>Wedding</th>
+                        <th>Date</th>
+                        <th>Guests</th> 
+                        <th>Action</th>
+                    </tr>
+                    <tr>
+                        <td><a href="/viewwedding/@l.WeddingId/@ViewBag.ThisUser.UserId">@l.WedderOne & @l.WedderTwo</a></td>
+                        <td>@l.WeddingDate</td> 
+                        <td>@guestcount</td>
+                        <td>
+                            @{
+                            var hello = ((IEnumerable<dynamic>)l.UsersForThisWedding).Any(r => r.UserId == @ViewBag.ThisUser.UserId);
+
+                            if(l.UserId == ViewBag.ThisUser.UserId)
+                            {
+                                <a asp-action="RSVP" asp-route-weddingId="@l.WeddingId" asp-route-userId="@ViewBag.ThisUser.UserId" asp-route-status="delete">DELETE</a>
+
+                            }
+                             else if(hello)   @*(l.Associations.Any(r => r.UserId == ViewBag.ThisUser.UserId)) *@
+                            {
+                                <a asp-action="RSVP" asp-route-weddingId="@l.WeddingId" asp-route-userId="@ViewBag.ThisUser.UserId" asp-route-status="remove">Un-RSVP</a>
+                            }
+                            else
+                            {
+                                <a asp-action="RSVP" asp-route-weddingId="@l.WeddingId" asp-route-userId="@ViewBag.ThisUser.UserId" asp-route-status="add">RSVP</a>
+                            }
+                            }
+                        </td>
+                    </tr>
+                    </table>
+                } 
+            }
+            else
+            {
+                <p>There are no weddings for now</p>
+            }
+        }
+    
+    </ul>
+</div>
+
+
+<a href="/planwedding/@ViewBag.ThisUser.UserId">New Wedding</a>

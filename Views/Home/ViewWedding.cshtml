@@ -1,0 +1,19 @@
+<a href="/dashboardredirect/@ViewBag.ThisUser.UserId">Dashboard</a>
+
+
+<a href="/">Logout</a>
+
+<h1>@ViewBag.Wedding.WedderOne and @ViewBag.Wedding.WedderTwo's Wedding</h1>
+
+<h2>Date: @ViewBag.Wedding.WeddingDate</h2>
+
+<h3>Guests:
+    
+    @foreach(var l in ViewBag.WeddingGuests)
+    {
+        <li>@l.User.FirstName</li>
+    } 
+    
+</h3>
+
+
